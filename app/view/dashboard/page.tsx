@@ -6,6 +6,7 @@ import ClicPerfil from "@/app/components/clicPerfil";
 export default function Dashboard() {
     const [tab, setTab] = useState("inicio");
     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
+    const usuario = JSON.parse(localStorage.getItem("user") || "{}");
     return (
         <div className="w-full min-h-screen orbitron text-black bg-gray-100 grid grid-cols-6 ">
             <div className="bg-white shadow-xl">
@@ -16,7 +17,7 @@ export default function Dashboard() {
                         className="w-30 h-30 object-cover rounded-full"
                     />
                     <h1 onClick={() => setOpcionesPerfil(!opcionesPerfil)} className="text-gray-500 mt-4 flex items-center gap-2 text-sm">
-                        correo@gmail.com <FaChevronDown />
+                        {usuario.nombre} <FaChevronDown />
                     </h1>
                     <div className="w-full">{opcionesPerfil && <ClicPerfil onClose={() => setOpcionesPerfil(false)}></ClicPerfil>}</div>
                 </div>
