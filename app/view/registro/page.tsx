@@ -64,7 +64,7 @@ export default function Registro() {
                         name="nombre_completo"
                         onChange={handleChange}
                         type="text"
-                        className="focus:outline-none bg-gray-100 rounded-lg px-4 py-2 text-lg w-full selection:bg-yellow-300"
+                        className="focus:outline-none bg-gray-100 rounded-lg px-4 py-2 text-lg w-full selection:bg-yellow-300 capitalized"
                     />
 
                     <div className="mt-8">

@@ -18,8 +18,8 @@ export default function Home() {
             localStorage.setItem("user", JSON.stringify(data.user));
             Swal.fire("Bienvenido", "Has iniciado sesión correctamente", "success");
             router.push("/view/dashboard");
-        } catch (error) {
-            Swal.fire("Oops!", "Correo o contraseña incorrectos", "error");
+        } catch (error: any) {
+            Swal.fire("Oops!", error.message, "error");
         }
     };
 
