@@ -26,3 +26,18 @@ export const loginCoach = async (email: string, password: string): Promise<Login
     // Aquí TS ya sabe que el resultado tiene token, message y user
     return response.json();
 };
+
+export const registrarCoach = async (datos: any) => {
+    const response = await fetch("http://localhost:3000/api/coaches/registro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(datos),
+    });
+
+    if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Error al registrarse");
+    }
+
+    return await response.json();
+};

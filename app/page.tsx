@@ -12,7 +12,6 @@ export default function Home() {
     const login = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        console.log("Intentando iniciar sesión con:", { email, password });
         try {
             const data = await loginCoach(email, password);
             localStorage.setItem("token", data.token);
