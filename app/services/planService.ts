@@ -29,3 +29,12 @@ export const registrarPlan = async (datos: any) => {
 
     return await response.json();
 };
+
+export const deletePlan = async (id: number) => {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+    });
+    return await response.json();
+};

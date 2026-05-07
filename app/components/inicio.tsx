@@ -9,6 +9,7 @@ export default function Inicio() {
     const [mostrarNuevoAsesorado, setMostrarNuevoAsesorado] = useState(false);
     const [asesorados, setAsesorados] = useState([]);
     const [numPlanes, setNumPlanes] = useState(0);
+    const [planes, setPlanes] = useState([]);
 
     const cargarDatos = async () => {
         try {
@@ -20,9 +21,13 @@ export default function Inicio() {
     };
 
     const comprobarPlanes = async () => {
-        const planes = await getPlanes();
-        setNumPlanes(planes.length);
-        console.log(numPlanes);
+        try {
+            const datos = await getPlanes();
+            setNumPlanes(datos.length);
+            setPlanes(datos);
+        } catch (error) {
+            console.log("Error al cargar los planes en el front-end:", error);
+        }
     };
 
     const comprobarBotonCrearAsesorado = () => {
@@ -74,7 +79,7 @@ export default function Inicio() {
                             </thead>
                             <tbody className="cursor-pointer">
                                 {asesorados.map((a: any) => (
-                                    <tr key={a.id_asesorado} className="hover:bg-yellow-50 transition-colors">
+                                    <tr key={a.id_asesorado} className="hover:bg-yellow-50 transition-colors capitalize">
                                         <td className="border-t border-gray-200 px-4 py-2">{a.nombre_completo}</td>
                                         <td className="border-t border-gray-200 px-4 py-2">{a.peso_actual}</td>
                                         <td className="border-t border-gray-200 px-4 py-2">{a.edad}</td>

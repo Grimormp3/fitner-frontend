@@ -2,6 +2,8 @@
 import NuevoPlan from "./nuevoPlan";
 import { useState, useEffect } from "react";
 import { getPlanes } from "../services/planService";
+import { deletePlan } from "../services/planService";
+import Swal from "sweetalert2";
 export default function Planes() {
     const [abrirRegistro, setAbrirRegistro] = useState(false);
     const [planes, setPlanes] = useState([]);
@@ -20,6 +22,22 @@ export default function Planes() {
         cargarPlanes();
     }, []);
 
+    const manejarEliminar = (id: number) => {
+        Swal.fire({
+            title: "¿Eliminar plan?",
+            text: "Los asesorados que tengan este plan quedarán marcados 'Sin plan'.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            confirmButtonText: "Sí, borrar",
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await deletePlan(id);
+                // Aquí deberías refrescar la lista de planes
+                cargarPlanes();
+            }
+        });
+    };
     return (
         <div className="">
             <div className="bg-white p-4 rounded-lg shadow-lg select-none">
@@ -72,8 +90,13 @@ export default function Planes() {
                             </ul>
 
                             <div className="flex justify-between items-center mt-auto pt-4">
-                                <button className="text-blue-300 font-bold cursor-pointer hover:text-blue-500 duration-300">Editar plan</button>
-                                <button className="text-red-400 font-bold cursor-pointer hover:text-red-300 duration-300">Eliminar plan</button>
+                                <button className="text-blue-300 font-bold cursor-pointer hover:text-blue-500 duration-300"></button>
+                                <button
+                                    onClick={() => manejarEliminar(item.id_plan_coach)}
+                                    className="text-red-400 font-bold cursor-pointer hover:text-red-300 duration-300"
+                                >
+                                    Eliminar plan
+                                </button>
                             </div>
                         </div>
                     ))
