@@ -1,12 +1,21 @@
 "use client";
 import { FaChevronDown } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Inicio from "@/app/components/inicio";
 import ClicPerfil from "@/app/components/clicPerfil";
+import Planes from "@/app/components/planes";
 export default function Dashboard() {
     const [tab, setTab] = useState("inicio");
     const [opcionesPerfil, setOpcionesPerfil] = useState(false);
-    const usuario = JSON.parse(localStorage.getItem("user") || "{}");
+    const [usuario, setUsuario] = useState({ nombre: "" });
+
+    useEffect(() => {
+        const userStorage = localStorage.getItem("user");
+        if (userStorage) {
+            setUsuario(JSON.parse(userStorage));
+        }
+    }, []);
+
     return (
         <div className="w-full min-h-screen orbitron text-black bg-gray-100 grid grid-cols-6 ">
             <div className="bg-white shadow-xl">
@@ -55,7 +64,7 @@ export default function Dashboard() {
             </div>
             <div className="col-span-5 p-4">
                 {tab === "inicio" && <Inicio></Inicio>}
-                {tab === "planes" && <Inicio></Inicio>}
+                {tab === "planes" && <Planes></Planes>}
             </div>
         </div>
     );
