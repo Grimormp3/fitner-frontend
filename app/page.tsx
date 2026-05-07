@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { loginCoach } from "./services/authService";
 import { useState } from "react";
 import Swal from "sweetalert2";
+
 export default function Home() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
