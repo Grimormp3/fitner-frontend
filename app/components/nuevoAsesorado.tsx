@@ -5,9 +5,11 @@ import { useState, useEffect } from "react";
 import { registrarAsesorado } from "../services/asesoradoService";
 import { getPlanes } from "../services/planService";
 import Swal from "sweetalert2";
+
 interface AsesoradoProps {
     onClose: () => void;
 }
+
 export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
     const [planes, setPlanes] = useState([]);
     const [formData, setFormData] = useState({

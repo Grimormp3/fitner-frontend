@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
-            router.push("/"); // Redirige al login si no hay token
+            router.push("/");
         }
     }, [router]);
 

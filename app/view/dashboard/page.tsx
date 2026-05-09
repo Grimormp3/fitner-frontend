@@ -65,6 +65,7 @@ export default function Dashboard() {
             <div className="col-span-5 p-4">
                 {tab === "inicio" && <Inicio></Inicio>}
                 {tab === "planes" && <Planes></Planes>}
+                {tab === "rutinas" && <p>Componente de rutinas</p>}
             </div>
         </div>
     );
