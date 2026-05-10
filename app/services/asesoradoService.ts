@@ -25,7 +25,7 @@ export const registrarAsesorado = async (datos: any) => {
 export const getAsesorados = async () => {
     const token = localStorage.getItem("token");
 
-    const response = await fetch("http://localhost:3000/api/asesorados", {
+    const response = await fetch(API_URL, {
         method: "GET",
         headers: {
             Authorization: `Bearer ${token}`,
@@ -34,5 +34,20 @@ export const getAsesorados = async () => {
     });
 
     if (!response.ok) throw new Error("Error al cargar asesorados");
+    return await response.json();
+};
+
+export const getAsesoradoById = async (id: number) => {
+    const token = localStorage.getItem("token");
+
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (!response.ok) throw new Error("Error al cargar el detalle del asesorado");
     return await response.json();
 };

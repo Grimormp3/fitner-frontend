@@ -1,13 +1,17 @@
 "use client";
 import { IoClose } from "react-icons/io5";
 import { FaRegSave } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { registrarAsesorado } from "../services/asesoradoService";
+import { getPlanes } from "../services/planService";
 import Swal from "sweetalert2";
+
 interface AsesoradoProps {
     onClose: () => void;
 }
+
 export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
+    const [planes, setPlanes] = useState([]);
     const [formData, setFormData] = useState({
         nombre_completo: "",
         edad: "",
@@ -17,7 +21,7 @@ export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
         meta_peso: 0,
         peso_actual: 0,
         enfermedades_observaciones: "",
-        id_plan_coach: 1,
+        id_plan_coach: "",
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -42,6 +46,19 @@ export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
             [e.target.name]: e.target.value,
         });
     };
+
+    const comprobarPlanes = async () => {
+        try {
+            const datos = await getPlanes();
+            setPlanes(datos);
+        } catch (error) {
+            console.log("Error al cargar los planes en el front-end:", error);
+        }
+    };
+
+    useEffect(() => {
+        comprobarPlanes();
+    }, []);
 
     return (
         <div className="xl:w-1/2 w-full rounded-lg shadow-lg bg-white p-4 select-none border-2 border-gray-100">
@@ -129,12 +146,18 @@ export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
                 </div>
 
                 <h1 className="font-semibold text-md mt-4">Plan o suscripción de tu asesorado</h1>
-                <select name="" id="" className="bg-gray-100 px-4 py-2 rounded-lg focus:outline-none w-full">
-                    <option value="" className="">
-                        Solo entrenamiento
-                    </option>
-                    <option value="">Solo dieta</option>
-                    <option value="">Pro premium</option>
+                <select
+                    onChange={handleChange}
+                    name="id_plan_coach"
+                    value={formData.id_plan_coach}
+                    id=""
+                    className="bg-gray-100 px-4 py-2 rounded-lg focus:outline-none w-full"
+                >
+                    {planes.map((plan: any) => (
+                        <option key={plan.id_plan_coach} value={plan.id_plan_coach} className="capitalize">
+                            {plan.nombre_plan}
+                        </option>
+                    ))}
                 </select>
 
                 <h1 className="font-semibold text-md mt-4">Enfermedades u observaciones</h1>

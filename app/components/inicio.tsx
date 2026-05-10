@@ -5,11 +5,16 @@ import { useState, useEffect } from "react";
 import { getAsesorados } from "../services/asesoradoService";
 import { getPlanes } from "../services/planService";
 import Swal from "sweetalert2";
+import PerfilUsuario from "./perfilUsuario";
+import { getAsesoradoById } from "../services/asesoradoService";
+
 export default function Inicio() {
     const [mostrarNuevoAsesorado, setMostrarNuevoAsesorado] = useState(false);
     const [asesorados, setAsesorados] = useState([]);
     const [numPlanes, setNumPlanes] = useState(0);
-
+    const [planes, setPlanes] = useState([]);
+    const [mostrarPerfilAsesorado, setMostrarPerfilAsesorado] = useState(false);
+    const [detallesUsuario, setDetallesUsuario] = useState<any | null>(null);
     const cargarDatos = async () => {
         try {
             const data = await getAsesorados();
@@ -20,9 +25,23 @@ export default function Inicio() {
     };
 
     const comprobarPlanes = async () => {
-        const planes = await getPlanes();
-        setNumPlanes(planes.length);
-        console.log(numPlanes);
+        try {
+            const datos = await getPlanes();
+            setNumPlanes(datos.length);
+            setPlanes(datos);
+        } catch (error) {
+            console.log("Error al cargar los planes en el front-end:", error);
+        }
+    };
+
+    const manejarVerDetalle = async (id: number) => {
+        try {
+            const detalle = await getAsesoradoById(id);
+            setDetallesUsuario(detalle); // Primero guardamos los datos
+            setMostrarPerfilAsesorado(true); // Luego abrimos el modal
+        } catch (error) {
+            Swal.fire("Error", "No se pudo cargar la información", "error");
+        }
     };
 
     const comprobarBotonCrearAsesorado = () => {
@@ -74,7 +93,11 @@ export default function Inicio() {
                             </thead>
                             <tbody className="cursor-pointer">
                                 {asesorados.map((a: any) => (
-                                    <tr key={a.id_asesorado} className="hover:bg-yellow-50 transition-colors">
+                                    <tr
+                                        onClick={() => manejarVerDetalle(a.id_asesorado)}
+                                        key={a.id_asesorado}
+                                        className="hover:bg-yellow-50 transition-colors capitalize"
+                                    >
                                         <td className="border-t border-gray-200 px-4 py-2">{a.nombre_completo}</td>
                                         <td className="border-t border-gray-200 px-4 py-2">{a.peso_actual}</td>
                                         <td className="border-t border-gray-200 px-4 py-2">{a.edad}</td>
@@ -86,6 +109,16 @@ export default function Inicio() {
                     )}
                 </div>
             </div>
+
+            {mostrarPerfilAsesorado && detallesUsuario && (
+                <div className="absolute top-0 left-0 w-full h-full flex justify-start items-start">
+                    <PerfilUsuario
+                        onClose={() => setMostrarPerfilAsesorado(false)}
+                        {...detallesUsuario} // <--- Esto pasa todos los datos automáticamente
+                    />
+                </div>
+            )}
+
             <div className="grid grid-cols-4 mt-8 gap-8 select-none">
                 <div className="bg-white rounded-lg shadow-lg p-8 flex flex-col items-center justify-center">
                     <h1 className="font-bold text-2xl">20</h1>
