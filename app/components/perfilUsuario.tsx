@@ -56,7 +56,7 @@ export default function PerfilUsuario({
                 </div>
                 <div className="border-1 border-gray-200 p-4 rounded-lg col-span-2">
                     <h1 className="font-semibold">Enfermedades u observaciones</h1>
-                    <p className="text-gray-500">{enfermedades_observaciones}</p>
+                    <p className="text-gray-500">{enfermedades_observaciones || "No hay enfermedades ni observaciones"}</p>
                 </div>
 
                 <div className="border-1 border-gray-200 p-4 rounded-lg">

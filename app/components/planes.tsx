@@ -18,6 +18,14 @@ export default function Planes() {
         }
     };
 
+    const evaluarPlanes = () => {
+        if (planes.length === 4) {
+            Swal.fire("Planes máximos", "Alcanzaste el límite de planes de tu cuenta, elimina alguno para registrar otro", "warning");
+        } else {
+            setAbrirRegistro(true);
+        }
+    };
+
     useEffect(() => {
         cargarPlanes();
     }, []);
@@ -50,7 +58,7 @@ export default function Planes() {
 
             <div className="flex items-center gap-4 mt-8">
                 <button
-                    onClick={() => setAbrirRegistro(true)}
+                    onClick={evaluarPlanes}
                     className="px-4 py-2 rounded-lg bg-yellow-300 font-bold  cursor-pointer hover:bg-yellow-200 duration-300 shadow-lg"
                 >
                     Nuevo plan
@@ -62,6 +70,8 @@ export default function Planes() {
                 >
                     Refrescar planes
                 </button>
+
+                <h1 className="text-gray-500 font-bold select-none">Planes registrados {planes.length}/4</h1>
             </div>
 
             {abrirRegistro && (

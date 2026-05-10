@@ -146,7 +146,7 @@ export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
                 </div>
 
                 <h1 className="font-semibold text-md mt-4">Plan o suscripción de tu asesorado</h1>
-                <select
+                {/*                 <select
                     onChange={handleChange}
                     name="id_plan_coach"
                     value={formData.id_plan_coach}
@@ -158,7 +158,27 @@ export default function NuevoAsesorado({ onClose }: AsesoradoProps) {
                             {plan.nombre_plan}
                         </option>
                     ))}
-                </select>
+                </select> */}
+
+                <div className="grid xl:grid-cols-4 gap-4 mt-1 grid-cols-2">
+                    {planes.map((plan: any) => (
+                        <div
+                            key={plan.id_plan_coach}
+                            onClick={() =>
+                                setFormData({
+                                    ...formData,
+                                    id_plan_coach: plan.id_plan_coach,
+                                })
+                            }
+                            className={`border-2 p-2 rounded-lg cursor-pointer 
+        ${formData.id_plan_coach === plan.id_plan_coach ? "border-yellow-400" : "border-gray-300"} 
+        hover:border-yellow-300`}
+                        >
+                            <h1 className="font-bold capitalize">{plan.nombre_plan}</h1>
+                            <p className="text-gray-600 text-xs">{plan.descripcion}</p>
+                        </div>
+                    ))}
+                </div>
 
                 <h1 className="font-semibold text-md mt-4">Enfermedades u observaciones</h1>
                 <textarea

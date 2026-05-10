@@ -28,7 +28,7 @@ export const loginCoach = async (email: string, password: string): Promise<Login
 };
 
 export const registrarCoach = async (datos: any) => {
-    const response = await fetch("http://localhost:3000/api/coaches/registro", {
+    const response = await fetch(`${API_URL}/registro`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(datos),
